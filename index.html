@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Бамбурия — каталог панелей</title>
+<meta name="description" content="Стеновые панели листом 3000×1220 в Санкт-Петербурге. Каталог декоров и цены, шоурум на Фучика, 9.">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+:root{
+  --bg:#F5F1EA; --card:#FFFFFF; --ink:#1C1916; --muted:#625849; --line:rgba(28,25,22,.12);
+  --green:#2F7D52; --green-2:#3B9563; --on-green:#FFFFFF; --chip:#EAE3D8;
+  --serif:Georgia,"Times New Roman",serif; --sans:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+}
+html.dark{
+  --bg:#161412; --card:#221F1B; --ink:#F2ECE3; --muted:#A79B8C; --line:rgba(242,236,227,.12);
+  --chip:#2D2924;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 var(--sans)}
+button{font:inherit;color:inherit;cursor:pointer}
+img{display:block;max-width:100%}
+.wrap{max-width:720px;margin:0 auto;padding:0 16px calc(96px + env(safe-area-inset-bottom))}
+
+header{display:flex;align-items:center;gap:12px;padding:18px 0 10px}
+header img{width:44px;height:44px;border-radius:12px;object-fit:cover}
+header h1{font:600 22px/1.1 var(--serif);margin:0;letter-spacing:.02em}
+header p{margin:2px 0 0;color:var(--muted);font-size:13px}
+
+.notice{background:var(--chip);border-radius:12px;padding:10px 12px;font-size:13px;color:var(--muted);margin:4px 0 12px}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.facts div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 8px;font-size:12px;line-height:1.3;color:var(--muted)}
+.facts b{display:block;color:var(--ink);font-size:13px;margin-bottom:2px}
+
+.search{width:100%;padding:11px 14px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:16px;outline:none}
+.search:focus{border-color:var(--green)}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:12px 0;margin:0 -16px;padding-left:16px;padding-right:16px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:0;background:var(--chip);border-radius:999px;padding:8px 14px;font-size:14px;white-space:nowrap}
+.chip.on{background:var(--green);color:var(--on-green)}
+
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media (min-width:560px){.grid{grid-template-columns:repeat(3,1fr)}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;text-align:left;padding:0;position:relative}
+.card .ph{aspect-ratio:1/1;background:var(--chip)}
+.card .ph img{width:100%;height:100%;object-fit:cover}
+.card .tx{padding:8px 10px 10px}
+.card h3{margin:0;font-size:14px;line-height:1.25;font-weight:600}
+.card .art{color:var(--muted);font-size:12px;margin-top:2px}
+.card .pr{margin-top:6px;font-weight:600;font-size:14px}
+.card .pr span{display:block;color:var(--muted);font-weight:400;font-size:12px}
+.card .fav{position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.92);color:#1C1916;display:grid;place-items:center;font-size:16px;line-height:1}
+.card .fav.on{background:var(--green);color:#fff}
+.empty{color:var(--muted);text-align:center;padding:30px 0}
+
+section.block{margin-top:22px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+section.block h2{font:600 19px/1.2 var(--serif);margin:0 0 10px}
+.row{display:flex;gap:10px}
+.row label{flex:1;font-size:13px;color:var(--muted)}
+.row input,.row select,select.full{width:100%;margin-top:4px;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:16px}
+select.full{margin:10px 0 0}
+.res{margin-top:12px;display:grid;grid-template-columns:1fr auto;gap:6px 12px;font-size:14px}
+.res b{text-align:right}
+.res .tot{font-size:17px}
+.fine{color:var(--muted);font-size:12px;margin:10px 0 0}
+.list{margin:0;padding:0;list-style:none}
+.list li{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-top:1px solid var(--line);font-size:14px}
+.list li:first-child{border-top:0}
+.list li b{white-space:nowrap}
+.btns{display:grid;gap:8px;margin-top:12px}
+.btn{display:block;width:100%;border:0;border-radius:12px;padding:13px;font-weight:600;text-align:center;text-decoration:none;font-size:15px}
+.btn.main{background:var(--green);color:var(--on-green)}
+.btn.sec{background:var(--chip);color:var(--ink)}
+
+.bar{position:fixed;left:0;right:0;bottom:0;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:var(--bg);border-top:1px solid var(--line);display:none;z-index:5}
+.bar.show{display:block}
+.bar .btn{max-width:688px;margin:0 auto}
+
+.sheet{position:fixed;inset:0;z-index:10;display:none}
+.sheet.show{display:block}
+.sheet .bd{position:absolute;inset:0;background:rgba(0,0,0,.45)}
+.sheet .pn{position:absolute;left:0;right:0;bottom:0;max-height:92vh;overflow-y:auto;background:var(--bg);border-radius:18px 18px 0 0;padding:0 0 calc(16px + env(safe-area-inset-bottom));animation:up .22s ease-out}
+@keyframes up{from{transform:translateY(24px);opacity:.6}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){.sheet .pn{animation:none}}
+.pn .x{position:sticky;top:0;display:flex;justify-content:flex-end;padding:10px 12px 0;background:linear-gradient(var(--bg),transparent)}
+.pn .x button{border:0;background:var(--chip);width:34px;height:34px;border-radius:50%;font-size:18px}
+.pn .in{max-width:720px;margin:0 auto;padding:0 16px}
+.pn .pics{display:grid;gap:8px}
+.pn .pics img{border-radius:14px;width:100%;background:var(--chip);max-height:46vh;object-fit:cover}
+.pn h2{font:600 22px/1.2 var(--serif);margin:14px 0 2px}
+.pn .meta{color:var(--muted);font-size:13px}
+.pn .big{font-size:20px;font-weight:700;margin:12px 0 0}
+.pn .big span{font-size:14px;color:var(--muted);font-weight:400}
+.pn dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:14px 0 0;font-size:14px}
+.pn dt{color:var(--muted)}
+.pn dd{margin:0}
+.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 14px;border-radius:10px;font-size:14px;z-index:20;display:none;max-width:90vw;text-align:center}
+.toast.show{display:block}
+footer{color:var(--muted);font-size:12px;text-align:center;margin-top:22px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img src="logo.webp" alt="">
+    <div><h1>БАМБУРИЯ</h1><p>Стеновые панели листом · Санкт-Петербург</p></div>
+  </header>
+  <div class="notice">Сайт bamburia.ru временно недоступен из-за сбоя у хостинга. Здесь весь каталог и цены, заказ через Telegram или по телефону.</div>
+  <div class="facts">
+    <div><b>Шоурум</b>Фучика, 9 · ТЦ «Кубатура», 3 этаж</div>
+    <div><b>Склад в СПб</b>доставка 1–2 дня</div>
+    <div><b>Образцы</b>бесплатно в шоуруме</div>
+  </div>
+
+  <input class="search" id="q" type="search" placeholder="Поиск: дуб, мрамор, NB012…" autocomplete="off">
+  <div class="chips" id="chips"></div>
+  <div class="grid" id="grid"></div>
+  <p class="empty" id="empty" hidden>Ничего не нашлось. Напишите нам — подберём.</p>
+
+  <section class="block" id="calc">
+    <h2>Сколько листов нужно</h2>
+    <div class="row">
+      <label>Ширина стены, м<input id="cw" inputmode="decimal" value="3,6"></label>
+      <label>Высота, м<input id="ch" inputmode="decimal" value="2,8"></label>
+    </div>
+    <select class="full" id="cs"></select>
+    <div class="res">
+      <span>Площадь</span><b id="rArea"></b>
+      <span>Листов</span><b id="rPanels"></b>
+      <span class="tot">Материал</span><b class="tot" id="rMat"></b>
+    </div>
+    <p class="fine">Расчёт предварительный. Монтаж — отдельная услуга, точная цена после замера. Клей, профили и доставка считаются отдельно.</p>
+  </section>
+
+  <section class="block">
+    <h2>Услуги</h2>
+    <ul class="list" id="svc"></ul>
+  </section>
+
+  <section class="block">
+    <h2>Связаться</h2>
+    <p class="fine" style="margin:0">Шоурум: ул. Фучика, 9, ТЦ «Кубатура», 3 этаж, м. Бухарестская. Ежедневно 10:00–22:00, без записи.</p>
+    <div class="btns">
+      <a class="btn main" href="https://t.me/bamburiapaneli" data-tg>Написать в Telegram</a>
+      <a class="btn sec" href="tel:+79312425253">Позвонить: +7 931 242-52-53</a>
+      <a class="btn sec" href="https://max.ru/u/f9LHodD0cOJ873zch-bGqHjJDepk1yCb71q2HBi8J70daUK2t0FhaPq_rlU" data-ext>Написать в MAX</a>
+      <a class="btn sec" href="https://yandex.ru/maps/?text=%D0%91%D0%B0%D0%BC%D0%B1%D1%83%D1%80%D0%B8%D1%8F%20%D0%A4%D1%83%D1%87%D0%B8%D0%BA%D0%B0%209" data-ext>Шоурум на Яндекс Картах</a>
+    </div>
+  </section>
+  <footer>Бамбурия · bamburiapaneli@yandex.ru</footer>
+</div>
+
+<div class="bar" id="bar"><button class="btn main" id="sendSel"></button></div>
+
+<div class="sheet" id="sheet">
+  <div class="bd" data-close></div>
+  <div class="pn">
+    <div class="x"><button data-close aria-label="Закрыть">×</button></div>
+    <div class="in" id="det"></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+var DATA = {"items":[{"art":"NB001","title":"Тёмный Гранд Орех","cat":"Панели под дерево","coll":"Древесная серия NB","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":13500,"m2":3690,"img":"NB001.webp","inter":"NB001-i.webp"},{"art":"NB002","title":"Жжённый Дуб","cat":"Панели под дерево","coll":"Древесная серия NB","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":13500,"m2":3690,"img":"NB002.webp","inter":"NB002-i.webp"},{"art":"NB002-1","title":"Северный Лён","cat":"Панели под дерево","coll":"Древесная серия NB","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":13500,"m2":3690,"img":"NB002-1.webp","inter":"NB002-1-i.webp"},{"art":"NB003","title":"Золотистый Дуб","cat":"Панели под дерево","coll":"Древесная серия NB","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":13500,"m2":3690,"img":"NB003.webp","inter":"NB003-i.webp"},{"art":"NB003-1","title":"Королевский Палисандр","cat":"Панели под дерево","coll":"Древесная серия NB","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":13500,"m2":3690,"img":"NB003-1.webp","inter":"NB003-1-i.webp"},{"art":"NB004","title":"Коньячный Орех","cat":"Панели под дерево","coll":"Древесная серия NB","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":13500,"m2":3690,"img":"NB004.webp","inter":"NB004-i.webp"},{"art":"NB004-1","title":"Янтарный Дуб","cat":"Панели под дерево","coll":"Древесная серия NB","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":13500,"m2":3690,"img":"NB004-1.webp","inter":"NB004-1-i.webp"},{"art":"NB004-2","title":"Графит Венге","cat":"Панели под дерево","coll":"Древесная серия NB","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":13500,"m2":3690,"img":"NB004-2.webp","inter":"NB004-2-i.webp"},{"art":"NB004-3","title":"Натуральный Ясень","cat":"Панели под дерево","coll":"Древесная серия NB","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":13500,"m2":3690,"img":"NB004-3.webp","inter":"NB004-3-i.webp"},{"art":"NB004-4","title":"Тёплый Тик","cat":"Панели под дерево","coll":"Древесная серия NB","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":13500,"m2":3690,"img":"NB004-4.webp","inter":"NB004-4-i.webp"},{"art":"NB005","title":"Дымчатый Венге","cat":"Панели под дерево","coll":"Древесная серия NB","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":13500,"m2":3690,"img":"NB005.webp","inter":"NB005-i.webp"},{"art":"NB005-1","title":"Глубокий Орех","cat":"Панели под дерево","coll":"Древесная серия NB","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":13500,"m2":3690,"img":"NB005-1.webp","inter":"NB005-1-i.webp"},{"art":"NB005-2","title":"Кофейный Дуб","cat":"Панели под дерево","coll":"Древесная серия NB","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":13500,"m2":3690,"img":"NB005-2.webp","inter":"NB005-2-i.webp"},{"art":"NB006","title":"Золотой Ясень","cat":"Панели под дерево","coll":"Древесная серия NB","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":13500,"m2":3690,"img":"NB006.webp","inter":"NB006-i.webp"},{"art":"NB006-1","title":"Светлый Пшеничный Дуб","cat":"Панели под дерево","coll":"Древесная серия NB","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":13500,"m2":3690,"img":"NB006-1.webp","inter":"NB006-1-i.webp"},{"art":"NB007","title":"Ночной Венге","cat":"Панели под дерево","coll":"Древесная серия NB","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":13500,"m2":3690,"img":"NB007.webp","inter":"NB007-i.webp"},{"art":"NB007-1","title":"Серебристый Дуб","cat":"Панели под дерево","coll":"Древесная серия NB","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":13500,"m2":3690,"img":"NB007-1.webp","inter":"NB007-1-i.webp"},{"art":"NB008","title":"Светлый Орех","cat":"Панели под дерево","coll":"Древесная серия NB","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":13500,"m2":3690,"img":"NB008.webp","inter":"NB008-i.webp"},{"art":"NB009","title":"Янтарный дуб","cat":"Панели под дерево","coll":"Древесная серия NB","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":13500,"m2":3690,"img":"NB009.webp","inter":"NB009-i.webp"},{"art":"NB009-1","title":"Сандаловое Дерево","cat":"Панели под дерево","coll":"Древесная серия NB","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":13500,"m2":3690,"img":"NB009-1.webp","inter":"NB009-1-i.webp"},{"art":"NB010","title":"Чёрное Эбеновое Дерево","cat":"Панели под дерево","coll":"Древесная серия NB","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":13500,"m2":3690,"img":"NB010.webp","inter":"NB010-i.webp"},{"art":"NB010-1","title":"Благородный Каштан","cat":"Панели под дерево","coll":"Древесная серия NB","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":13500,"m2":3690,"img":"NB010-1.webp","inter":"NB010-1-i.webp"},{"art":"NB010-2","title":"Мокко Дуб","cat":"Панели под дерево","coll":"Древесная серия NB","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":13500,"m2":3690,"img":"NB010-2.webp","inter":"NB010-2-i.webp"},{"art":"NB010-3","title":"Табачный Орех","cat":"Панели под дерево","coll":"Древесная серия NB","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":13500,"m2":3690,"img":"NB010-3.webp","inter":"NB010-3-i.webp"},{"art":"NB010-4","title":"Каштан Сиена","cat":"Панели под дерево","coll":"Древесная серия NB","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":13500,"m2":3690,"img":"NB010-4.webp","inter":"NB010-4-i.webp"},{"art":"NB010-5","title":"Полуночный Массив","cat":"Панели под дерево","coll":"Древесная серия NB","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":13500,"m2":3690,"img":"NB010-5.webp","inter":"NB010-5-i.webp"},{"art":"NB011","title":"Орех Амаретто","cat":"Панели под дерево","coll":"Древесная серия NB","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":13500,"m2":3690,"img":"NB011.webp","inter":"NB011-i.webp"},{"art":"NB011-1","title":"Дуб Терракота","cat":"Панели под дерево","coll":"Древесная серия NB","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":13500,"m2":3690,"img":"NB011-1.webp","inter":"NB011-1-i.webp"},{"art":"NB011-2","title":"Графитовый Шпон","cat":"Панели под дерево","coll":"Древесная серия NB","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":13500,"m2":3690,"img":"NB011-2.webp","inter":"NB011-2-i.webp"},{"art":"NB012","title":"Песчаный Ривьер","cat":"Панели под дерево","coll":"Древесная серия NB","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":13500,"m2":3690,"img":"NB012.webp","inter":"NB012-i.webp"},{"art":"NB012-1","title":"Эспрессо Структур","cat":"Панели под дерево","coll":"Древесная серия NB","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":13500,"m2":3690,"img":"NB012-1.webp","inter":"NB012-1-i.webp"},{"art":"NB012-2","title":"Кремовый Шелквуд","cat":"Панели под дерево","coll":"Древесная серия NB","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":13500,"m2":3690,"img":"NB012-2.webp","inter":"NB012-2-i.webp"},{"art":"NB013","title":"Дуб Бурбон","cat":"Панели под дерево","coll":"Древесная серия NB","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":13500,"m2":3690,"img":"NB013.webp","inter":"NB013-i.webp"},{"art":"NB013-1","title":"Тауп Натураль","cat":"Панели под дерево","coll":"Древесная серия NB","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":13500,"m2":3690,"img":"NB013-1.webp","inter":"NB013-1-i.webp"},{"art":"NB014","title":"Северный Клён","cat":"Панели под дерево","coll":"Древесная серия NB","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":13500,"m2":3690,"img":"NB014.webp","inter":"NB014-i.webp"},{"art":"NB014-1","title":"Бук Натурель","cat":"Панели под дерево","coll":"Древесная серия NB","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":13500,"m2":3690,"img":"NB014-1.webp","inter":"NB014-1-i.webp"},{"art":"NB015","title":"Солнечный Шпон","cat":"Панели под дерево","coll":"Древесная серия NB","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":13500,"m2":3690,"img":"NB015.webp","inter":"NB015-i.webp"},{"art":"NB015-1","title":"Золотистый Тростник","cat":"Панели под дерево","coll":"Древесная серия NB","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":13500,"m2":3690,"img":"NB015-1.webp","inter":"NB015-1-i.webp"},{"art":"FT06-04","title":"Текстурный холст","cat":"Панели под ткань","coll":"Текстиль","size":"2900 × 1220 мм","area":3.54,"thick":"5 мм","price":11500,"m2":3250,"img":"FT06-04.webp","inter":"FT06-04-i.webp"},{"art":"FT06-05","title":"Шёлковый путь","cat":"Панели под ткань","coll":"Текстиль","size":"2900 × 1220 мм","area":3.54,"thick":"5 мм","price":11500,"m2":3250,"img":"FT06-05.webp","inter":"FT06-05-i.webp"},{"art":"FT06-03","title":"Тёмный лён","cat":"Панели под ткань","coll":"Текстиль","size":"2900 × 1220 мм","area":3.54,"thick":"5 мм","price":11500,"m2":3250,"img":"FT06-03.webp","inter":"FT06-03-i.webp"},{"art":"FT06-01","title":"Молочный лён","cat":"Панели под ткань","coll":"Текстиль","size":"2900 × 1220 мм","area":3.54,"thick":"5 мм","price":11500,"m2":3250,"img":"FT06-01.webp","inter":"FT06-01-i.webp"},{"art":"FT06-06","title":"Твидовый туман","cat":"Панели под ткань","coll":"Текстиль","size":"2900 × 1220 мм","area":3.54,"thick":"5 мм","price":11500,"m2":3250,"img":"FT06-06.webp","inter":"FT06-06-i.webp"},{"art":"FT06-02","title":"Серый лён","cat":"Панели под ткань","coll":"Текстиль","size":"2900 × 1220 мм","area":3.54,"thick":"5 мм","price":11500,"m2":3250,"img":"FT06-02.webp","inter":"FT06-02-i.webp"},{"art":"WT01-08","title":"Чёрный бархат","cat":"Панели под дерево","coll":"Дерево","size":"2900 × 1220 мм","area":3.54,"thick":"5 мм","price":11500,"m2":3250,"img":"WT01-08.webp","inter":"WT01-08-i.webp"},{"art":"WT01-13","title":"Шоколадный орех","cat":"Панели под дерево","coll":"Дерево","size":"2900 × 1220 мм","area":3.54,"thick":"5 мм","price":11500,"m2":3250,"img":"WT01-13.webp","inter":"WT01-13-i.webp"},{"art":"WT01-12","title":"Песочный дуб","cat":"Панели под дерево","coll":"Дерево","size":"2900 × 1220 мм","area":3.54,"thick":"5 мм","price":11500,"m2":3250,"img":"WT01-12.webp","inter":"WT01-12-i.webp"},{"art":"WT01-11","title":"Золотой дуб","cat":"Панели под дерево","coll":"Дерево","size":"2900 × 1220 мм","area":3.54,"thick":"5 мм","price":11500,"m2":3250,"img":"WT01-11.webp","inter":"WT01-11-i.webp"},{"art":"WT01-10","title":"Тёплая ёлка","cat":"Панели под дерево","coll":"Дерево","size":"2900 × 1220 мм","area":3.54,"thick":"5 мм","price":11500,"m2":3250,"img":"WT01-10.webp","inter":"WT01-10-i.webp"},{"art":"WT01-09","title":"Туманная ёлка","cat":"Панели под дерево","coll":"Дерево","size":"2900 × 1220 мм","area":3.54,"thick":"5 мм","price":11500,"m2":3250,"img":"WT01-09.webp","inter":"WT01-09-i.webp"},{"art":"WT01-07","title":"Дикий дуб","cat":"Панели под дерево","coll":"Дерево","size":"2900 × 1220 мм","area":3.54,"thick":"5 мм","price":11500,"m2":3250,"img":"WT01-07.webp","inter":"WT01-07-i.webp"},{"art":"WT01-06","title":"Кремовое облако","cat":"Панели под дерево","coll":"Дерево","size":"2900 × 1220 мм","area":3.54,"thick":"5 мм","price":11500,"m2":3250,"img":"WT01-06.webp","inter":"WT01-06-i.webp"},{"art":"WT01-05","title":"Графитовый шёлк","cat":"Панели под дерево","coll":"Дерево","size":"2900 × 1220 мм","area":3.54,"thick":"5 мм","price":11500,"m2":3250,"img":"WT01-05.webp","inter":"WT01-05-i.webp"},{"art":"WT01-02","title":"Ночной орех","cat":"Панели под дерево","coll":"Дерево","size":"2900 × 1220 мм","area":3.54,"thick":"5 мм","price":11500,"m2":3250,"img":"WT01-02.webp","inter":"WT01-02-i.webp"},{"art":"WT01-01","title":"Утренний дуб","cat":"Панели под дерево","coll":"Дерево","size":"2900 × 1220 мм","area":3.54,"thick":"5 мм","price":11500,"m2":3250,"img":"WT01-01.webp","inter":"WT01-01-i.webp"},{"art":"TT02-09","title":"Песочный шёлк","cat":"Однотонные панели","coll":"Матовые однотоны","size":"2900 × 1220 мм","area":3.54,"thick":"5 мм","price":11500,"m2":3250,"img":"TT02-09.webp","inter":"TT02-09-i.webp"},{"art":"TT02-08","title":"Серый шёпот","cat":"Однотонные панели","coll":"Матовые однотоны","size":"2900 × 1220 мм","area":3.54,"thick":"5 мм","price":11500,"m2":3250,"img":"TT02-08.webp","inter":"TT02-08-i.webp"},{"art":"TT02-07","title":"Какао вуаль","cat":"Однотонные панели","coll":"Матовые однотоны","size":"2900 × 1220 мм","area":3.54,"thick":"5 мм","price":11500,"m2":3250,"img":"TT02-07.webp","inter":"TT02-07-i.webp"},{"art":"TT02-05","title":"Туманный лён","cat":"Однотонные панели","coll":"Матовые однотоны","size":"2900 × 1220 мм","area":3.54,"thick":"5 мм","price":11500,"m2":3250,"img":"TT02-05.webp","inter":"TT02-05-i.webp"},{"art":"TT02-06","title":"Ночной бархат","cat":"Однотонные панели","coll":"Матовые однотоны","size":"2900 × 1220 мм","area":3.54,"thick":"5 мм","price":11500,"m2":3250,"img":"TT02-06.webp","inter":"TT02-06-i.webp"},{"art":"ST05-02","title":"Кофейный камень","cat":"Панели под камень","coll":"Камень и штукатурка","size":"2900 × 1220 мм","area":3.54,"thick":"5 мм","price":11500,"m2":3250,"img":"ST05-02.webp","inter":"ST05-02-i.webp"},{"art":"ST05-01","title":"Ванильный штукатур","cat":"Панели под камень","coll":"Камень и штукатурка","size":"2900 × 1220 мм","area":3.54,"thick":"5 мм","price":11500,"m2":3250,"img":"ST05-01.webp","inter":"ST05-01-i.webp"},{"art":"ST05-04","title":"Дымчатый камень","cat":"Панели под камень","coll":"Камень и штукатурка","size":"2900 × 1220 мм","area":3.54,"thick":"5 мм","price":11500,"m2":3250,"img":"ST05-04.webp","inter":"ST05-04-i.webp"},{"art":"ST05-06","title":"Ночной базальт","cat":"Панели под камень","coll":"Камень и штукатурка","size":"2900 × 1220 мм","area":3.54,"thick":"5 мм","price":11500,"m2":3250,"img":"ST05-06.webp","inter":"ST05-06-i.webp"},{"art":"ST05-03","title":"Молочный камень","cat":"Панели под камень","coll":"Камень и штукатурка","size":"2900 × 1220 мм","area":3.54,"thick":"5 мм","price":11500,"m2":3250,"img":"ST05-03.webp","inter":"ST05-03-i.webp"},{"art":"ST05-07","title":"Огненный сланец","cat":"Панели под камень","coll":"Камень и штукатурка","size":"2900 × 1220 мм","area":3.54,"thick":"5 мм","price":11500,"m2":3250,"img":"ST05-07.webp","inter":"ST05-07-i.webp"},{"art":"ATR04-13","title":"Полярный металл","cat":"Панели под металл","coll":"Металл","size":"2900 × 1220 мм","area":3.54,"thick":"5 мм","price":11500,"m2":3250,"img":"ATR04-13.webp","inter":"ATR04-13-i.webp"},{"art":"ATR04-10","title":"Лунное серебро","cat":"Панели под металл","coll":"Металл","size":"2900 × 1220 мм","area":3.54,"thick":"5 мм","price":11500,"m2":3250,"img":"ATR04-10.webp","inter":"ATR04-10-i.webp"},{"art":"ATR04-09","title":"Медный вечер","cat":"Панели под металл","coll":"Металл","size":"2900 × 1220 мм","area":3.54,"thick":"5 мм","price":11500,"m2":3250,"img":"ATR04-09.webp","inter":"ATR04-09-i.webp"},{"art":"ATR04-16","title":"Латунный хаос","cat":"Панели под металл","coll":"Металл","size":"2900 × 1220 мм","area":3.54,"thick":"5 мм","price":11500,"m2":3250,"img":"ATR04-16.webp","inter":"ATR04-16-i.webp"},{"art":"ATR04-15","title":"Медный шлейф","cat":"Панели под металл","coll":"Металл","size":"2900 × 1220 мм","area":3.54,"thick":"5 мм","price":11500,"m2":3250,"img":"ATR04-15.webp","inter":"ATR04-15-i.webp"},{"art":"ATR04-14","title":"Золотой водопад","cat":"Панели под металл","coll":"Металл","size":"2900 × 1220 мм","area":3.54,"thick":"5 мм","price":11500,"m2":3250,"img":"ATR04-14.webp","inter":"ATR04-14-i.webp"},{"art":"ATF03-13","title":"Графитовый шёлк","cat":"Однотонные панели","coll":"Дизайнерская","size":"2900 × 1220 мм","area":3.54,"thick":"5 мм","price":11500,"m2":3250,"img":"ATF03-13.webp","inter":"ATF03-13-i.webp"},{"art":"ATF03-12","title":"Песочный браш","cat":"Однотонные панели","coll":"Дизайнерская","size":"2900 × 1220 мм","area":3.54,"thick":"5 мм","price":11500,"m2":3250,"img":"ATF03-12.webp","inter":"ATF03-12-i.webp"},{"art":"ATF03-05","title":"Туманный браш","cat":"Однотонные панели","coll":"Дизайнерская","size":"2900 × 1220 мм","area":3.54,"thick":"5 мм","price":11500,"m2":3250,"img":"ATF03-05.webp","inter":"ATF03-05-i.webp"},{"art":"DP08","title":"Древесная фактура","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"DP08.webp","inter":"DP08-i.webp"},{"art":"TK002A","title":"Древесная фактура","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK002A.webp","inter":"TK002A-i.webp"},{"art":"DP01","title":"Древесная фактура","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"DP01.webp","inter":"DP01-i.webp"},{"art":"DP3018","title":"Глубокая текстура","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"DP3018.webp","inter":"DP3018-i.webp"},{"art":"DP612","title":"Глубокая текстура","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"DP612.webp","inter":"DP612-i.webp"},{"art":"DP001ADM","title":"Глубокая текстура","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"DP001ADM.webp","inter":"DP001ADM-i.webp"},{"art":"TK140P","title":"Тканевые фактуры","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK140P.webp","inter":"TK140P-i.webp"},{"art":"TK141P","title":"Тканевые фактуры","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK141P.webp","inter":"TK141P-i.webp"},{"art":"GH188","title":"Тканевые фактуры","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"GH188.webp","inter":"GH188-i.webp"},{"art":"DP10102","title":"Тканевые фактуры","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"DP10102.webp","inter":"DP10102-i.webp"},{"art":"DP145","title":"Однотонная серия","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"DP145.webp","inter":"DP145-i.webp"},{"art":"PandoraA","title":"Мраморная текстура","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"PandoraA.webp","inter":"PandoraA-i.webp"},{"art":"DP32","title":"Мраморная текстура","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"DP32.webp","inter":"DP32-i.webp"},{"art":"D8024","title":"Мраморная текстура","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"D8024.webp","inter":"D8024-i.webp"},{"art":"TK171B","title":"Серый сланец","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK171B.webp","inter":"TK171B-i.webp"},{"art":"TK213M","title":"Декоративный металл","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK213M.webp","inter":"TK213M-i.webp"},{"art":"DP95","title":"Декоративный металл","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"DP95.webp","inter":"DP95-i.webp"},{"art":"TK203M","title":"Декоративный металл","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK203M.webp","inter":"TK203M-i.webp"},{"art":"TK204M","title":"Декоративный металл","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK204M.webp","inter":"TK204M-i.webp"},{"art":"HM-C813202-10","title":"Миланский Орех","cat":"Панели под дерево","coll":"Дерево","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":12500,"m2":3420,"img":"HM-C813202-10.webp","inter":"HM-C813202-10-i.webp"},{"art":"HM-C813206-10","title":"Дюна Шеврон","cat":"Панели под дерево","coll":"Дерево","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":12500,"m2":3420,"img":"HM-C813206-10.webp","inter":"HM-C813206-10-i.webp"},{"art":"K7099-302","title":"Северный дуб","cat":"Панели под дерево","coll":"Дерево","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":12500,"m2":3420,"img":"K7099-302.webp","inter":"K7099-302-i.webp"},{"art":"K7189-A237-A1","title":"Туманный Ясень","cat":"Панели под дерево","coll":"Дерево","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":12500,"m2":3420,"img":"K7189-A237-A1.webp","inter":"K7189-A237-A1-i.webp"},{"art":"K7245-A189","title":"Медовый Тик","cat":"Панели под дерево","coll":"Дерево","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":12500,"m2":3420,"img":"K7245-A189.webp","inter":"K7245-A189-i.webp"},{"art":"P099-177","title":"Лесной Мокко","cat":"Панели под дерево","coll":"Дерево","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":12500,"m2":3420,"img":"P099-177.webp","inter":"P099-177-i.webp"},{"art":"K73-A001","title":"Солнечный ясень","cat":"Панели под дерево","coll":"Дерево","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":12500,"m2":3420,"img":"K73-A001.webp","inter":"K73-A001-i.webp"},{"art":"K73-A002","title":"Коричневый ясень","cat":"Панели под дерево","coll":"Дерево","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":12500,"m2":3420,"img":"K73-A002.webp","inter":"K73-A002-i.webp"},{"art":"K73-A003","title":"Осенний орех","cat":"Панели под дерево","coll":"Дерево","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":12500,"m2":3420,"img":"K73-A003.webp","inter":"K73-A003-i.webp"},{"art":"FG6009-2","title":"Матовый Графит","cat":"Однотонные панели","coll":"Матовые однотоны","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":7500,"m2":2050,"img":"FG6009-2.webp","inter":"FG6009-2-i.webp"},{"art":"FG6015-2","title":"Небо Арктики","cat":"Однотонные панели","coll":"Матовые однотоны","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":12500,"m2":3420,"img":"FG6015-2.webp","inter":"FG6015-2-i.webp"},{"art":"G007-A216","title":"Льняной Бриз","cat":"Однотонные панели","coll":"Матовые однотоны","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":12500,"m2":3420,"img":"G007-A216.webp","inter":"G007-A216-i.webp"},{"art":"G011-2","title":"Тёплое Какао","cat":"Однотонные панели","coll":"Матовые однотоны","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":12500,"m2":3420,"img":"G011-2.webp","inter":"G011-2-i.webp"},{"art":"G042-A258","title":"Розовый Пепел","cat":"Однотонные панели","coll":"Матовые однотоны","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":12500,"m2":3420,"img":"G042-A258.webp","inter":"G042-A258-i.webp"},{"art":"Nplus395","title":"Полярный сланец","cat":"Однотонные панели","coll":"Матовые однотоны","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":12500,"m2":3420,"img":"Nplus395.webp","inter":"Nplus395-i.webp"},{"art":"Z206-003","title":"Иней","cat":"Однотонные панели","coll":"Матовые однотоны","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":7500,"m2":2050,"img":"Z206-003.webp","inter":"Z206-003-i.webp"},{"art":"Z206-004","title":"Туманный камень","cat":"Панели под камень","coll":"Камень и штукатурка","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":12500,"m2":3420,"img":"Z206-004.webp","inter":"Z206-004-i.webp"},{"art":"CLO001","title":"Утренняя дымка","cat":"Панели под ткань","coll":"Текстиль","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":12500,"m2":3420,"img":"CLO001.webp","inter":"CLO001-i.webp"},{"art":"CLO002","title":"Лунная дорожка","cat":"Панели под ткань","coll":"Текстиль","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":12500,"m2":3420,"img":"CLO002.webp","inter":"CLO002-i.webp"},{"art":"CLO003","title":"Тёплый бриз","cat":"Панели под ткань","coll":"Текстиль","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":12500,"m2":3420,"img":"CLO003.webp","inter":"CLO003-i.webp"},{"art":"CLO004","title":"Песчаный берег","cat":"Панели под ткань","coll":"Текстиль","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":12500,"m2":3420,"img":"CLO004.webp","inter":"CLO004-i.webp"},{"art":"H-JS001-A235","title":"Венецианская Штукатурка","cat":"Панели под камень","coll":"Камень и штукатурка","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":12500,"m2":3420,"img":"H-JS001-A235.webp","inter":"H-JS001-A235-i.webp"},{"art":"JS009-A220","title":"Бронзовый Метал","cat":"Панели под металл","coll":"Металл","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":12500,"m2":3420,"img":"JS009-A220.webp","inter":"JS009-A220-i.webp"},{"art":"C1041-A233-A1","title":"Перламутровый Шторм","cat":"Панели под металл","coll":"Металл","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":12500,"m2":3420,"img":"C1041-A233-A1.webp","inter":"C1041-A233-A1-i.webp"},{"art":"H-JS005-A220","title":"Флорентийская Бронза","cat":"Панели под металл","coll":"Металл","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":12500,"m2":3420,"img":"H-JS005-A220.webp","inter":"H-JS005-A220-i.webp"},{"art":"SK001","title":"Таинственный серый","cat":"Однотонные панели","coll":"Дизайнерская","size":"3000 × 1220 мм","area":3.66,"thick":"5 мм","price":12500,"m2":3420,"img":"SK001.webp","inter":"SK001-i.webp"},{"art":"TK001A","title":"Древесная текстура","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK001A.webp","inter":"TK001A-i.webp"},{"art":"TK003A","title":"Древесная текстура","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK003A.webp","inter":"TK003A-i.webp"},{"art":"TK004A","title":"Древесная текстура","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK004A.webp","inter":"TK004A-i.webp"},{"art":"TK005A","title":"Древесная текстура","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK005A.webp","inter":"TK005A-i.webp"},{"art":"TK006A","title":"Древесная текстура","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK006A.webp","inter":"TK006A-i.webp"},{"art":"TK007A","title":"Древесная текстура","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK007A.webp","inter":"TK007A-i.webp"},{"art":"TK008A","title":"Древесная текстура","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK008A.webp","inter":"TK008A-i.webp"},{"art":"TK009A","title":"Древесная текстура","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK009A.webp","inter":"TK009A-i.webp"},{"art":"TK010A","title":"Древесная текстура","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK010A.webp","inter":"TK010A-i.webp"},{"art":"TK011A","title":"Древесная текстура","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK011A.webp","inter":"TK011A-i.webp"},{"art":"TK012A","title":"Древесная текстура","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK012A.webp","inter":"TK012A-i.webp"},{"art":"TK013B","title":"Древесная текстура","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK013B.webp","inter":"TK013B-i.webp"},{"art":"TK014B","title":"Древесная текстура","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK014B.webp","inter":"TK014B-i.webp"},{"art":"TK015B","title":"Древесная текстура","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK015B.webp","inter":"TK015B-i.webp"},{"art":"TK016B","title":"Древесная текстура","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK016B.webp","inter":"TK016B-i.webp"},{"art":"TK017B","title":"Древесная текстура","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK017B.webp","inter":"TK017B-i.webp"},{"art":"TK018B","title":"Древесная текстура","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK018B.webp","inter":"TK018B-i.webp"},{"art":"TK019B","title":"Древесная текстура","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK019B.webp","inter":"TK019B-i.webp"},{"art":"TK020B","title":"Древесная текстура","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK020B.webp","inter":"TK020B-i.webp"},{"art":"TK021B","title":"Древесная текстура","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK021B.webp","inter":"TK021B-i.webp"},{"art":"TK022B","title":"Древесная текстура","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK022B.webp","inter":"TK022B-i.webp"},{"art":"TK023B","title":"Древесная текстура","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK023B.webp","inter":"TK023B-i.webp"},{"art":"TK024B","title":"Древесная текстура","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK024B.webp","inter":"TK024B-i.webp"},{"art":"TK025B","title":"Древесная текстура","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK025B.webp","inter":"TK025B-i.webp"},{"art":"TK026B","title":"Древесная текстура","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK026B.webp","inter":"TK026B-i.webp"},{"art":"TK027B","title":"Древесная текстура","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK027B.webp","inter":"TK027B-i.webp"},{"art":"TK028B","title":"Древесная текстура","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK028B.webp","inter":"TK028B-i.webp"},{"art":"TK029P","title":"Древесная текстура","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK029P.webp","inter":"TK029P-i.webp"},{"art":"TK030P","title":"Древесная текстура","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK030P.webp","inter":"TK030P-i.webp"},{"art":"TK031P","title":"Древесная текстура","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK031P.webp","inter":"TK031P-i.webp"},{"art":"DP81","title":"Однотонная серия","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"DP81.webp","inter":"DP81-i.webp"},{"art":"DP88","title":"Однотонная серия","cat":"Фактуры Декоплитер","coll":"Фактуры завода","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"DP88.webp","inter":"DP88-i.webp"},{"art":"TK177D","title":"Белый мрамор","cat":"Панели под мрамор","coll":"Матовый мрамор","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK177D.webp","inter":""},{"art":"TK178D","title":"Серый мрамор с прожилками","cat":"Панели под мрамор","coll":"Матовый мрамор","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK178D.webp","inter":""},{"art":"TK180D","title":"Чёрный мрамор с белой жилой","cat":"Панели под мрамор","coll":"Матовый мрамор","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK180D.webp","inter":""},{"art":"TK181B","title":"Бирюзовый мрамор с золотом","cat":"Панели под мрамор","coll":"Матовый мрамор","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK181B.webp","inter":""},{"art":"TK182B","title":"Сине-серый мрамор с золотом","cat":"Панели под мрамор","coll":"Матовый мрамор","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK182B.webp","inter":""},{"art":"TK183B","title":"Белый мрамор с золотом","cat":"Панели под мрамор","coll":"Матовый мрамор","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK183B.webp","inter":""},{"art":"TK157A","title":"Светлый травертин","cat":"Панели под мрамор","coll":"Травертин","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK157A.webp","inter":""},{"art":"TK158A","title":"Медовый травертин","cat":"Панели под мрамор","coll":"Травертин","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK158A.webp","inter":""},{"art":"TK159A","title":"Тёмный травертин","cat":"Панели под мрамор","coll":"Травертин","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK159A.webp","inter":""},{"art":"TK170B","title":"Бежево-серый камень с разломом","cat":"Панели под камень","coll":"Камень Декоплитер","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK170B.webp","inter":""},{"art":"TK172B","title":"Графитовый сланец","cat":"Панели под камень","coll":"Камень Декоплитер","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK172B.webp","inter":""},{"art":"TK175B","title":"Тёмный пёстрый камень","cat":"Панели под камень","coll":"Камень Декоплитер","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK175B.webp","inter":""},{"art":"TK176B","title":"Светлый камень","cat":"Панели под камень","coll":"Камень Декоплитер","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK176B.webp","inter":""},{"art":"TK179D","title":"Серое терраццо","cat":"Панели под камень","coll":"Камень Декоплитер","size":"3000 × 1220 мм","area":3.66,"thick":"8 мм","price":12500,"m2":3420,"img":"TK179D.webp","inter":""}],"cats":["Панели под дерево","Панели под камень","Панели под мрамор","Однотонные панели","Панели под ткань","Панели под металл","Фактуры Декоплитер"],"services":[{"name":"Монтаж бамбуковых панелей","price":2500},{"name":"Доставка панелей по Санкт-Петербургу","price":3500},{"name":"Замер помещения в черте города","price":3000}]};
+var TG = 'bamburiapaneli';
+var tg = window.Telegram && Telegram.WebApp && Telegram.WebApp.initData !== undefined ? Telegram.WebApp : null;
+if (tg) {
+  tg.ready(); tg.expand();
+  if (tg.colorScheme === 'dark') document.documentElement.classList.add('dark');
+  try { tg.setHeaderColor(tg.colorScheme === 'dark' ? '#161412' : '#F5F1EA'); tg.setBackgroundColor(tg.colorScheme === 'dark' ? '#161412' : '#F5F1EA'); } catch (e) {}
+} else if (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches) {
+  document.documentElement.classList.add('dark');
+}
+
+var $ = function (id) { return document.getElementById(id); };
+var rub = function (n) { return n.toLocaleString('ru-RU') + ' ₽'; };
+var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+var items = DATA.items, cat = 'Все', query = '';
+var sel = [];
+try { sel = JSON.parse(localStorage.getItem('bmb_sel') || '[]'); } catch (e) {}
+function saveSel() { try { localStorage.setItem('bmb_sel', JSON.stringify(sel)); } catch (e) {} }
+
+function openLink(url) {
+  if (tg && url.indexOf('https://t.me/') === 0) tg.openTelegramLink(url);
+  else if (tg) tg.openLink(url);
+  else window.open(url, '_blank');
+}
+document.addEventListener('click', function (e) {
+  var a = e.target.closest('a[data-tg],a[data-ext]');
+  if (a && tg) { e.preventDefault(); openLink(a.href); }
+});
+
+function toast(t) {
+  var el = $('toast'); el.textContent = t; el.classList.add('show');
+  clearTimeout(toast.t); toast.t = setTimeout(function () { el.classList.remove('show'); }, 3200);
+}
+function copy(text) {
+  if (navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(text).catch(function () { fallbackCopy(text); });
+  fallbackCopy(text); return Promise.resolve();
+}
+function fallbackCopy(text) {
+  var t = document.createElement('textarea'); t.value = text; document.body.appendChild(t); t.select();
+  try { document.execCommand('copy'); } catch (e) {} t.remove();
+}
+function haptic() { try { tg && tg.HapticFeedback.selectionChanged(); } catch (e) {} }
+
+/* категории */
+var chips = ['Все', 'Подборка'].concat(DATA.cats);
+function renderChips() {
+  $('chips').innerHTML = chips.map(function (c) {
+    var label = c === 'Подборка' ? '♥ Подборка' + (sel.length ? ' · ' + sel.length : '') : c.replace('Панели под ', 'Под ');
+    return '<button class="chip' + (c === cat ? ' on' : '') + '" data-c="' + esc(c) + '">' + esc(label) + '</button>';
+  }).join('');
+}
+$('chips').addEventListener('click', function (e) {
+  var b = e.target.closest('.chip'); if (!b) return;
+  cat = b.dataset.c; haptic(); renderChips(); renderGrid();
+});
+$('q').addEventListener('input', function () { query = this.value.trim().toLowerCase(); renderGrid(); });
+
+/* сетка */
+function visible() {
+  return items.filter(function (i) {
+    if (cat === 'Подборка' && sel.indexOf(i.art) < 0) return false;
+    if (cat !== 'Все' && cat !== 'Подборка' && i.cat !== cat) return false;
+    if (!query) return true;
+    return (i.title + ' ' + i.art + ' ' + i.coll + ' ' + i.cat).toLowerCase().indexOf(query) >= 0;
+  });
+}
+function renderGrid() {
+  var list = visible();
+  $('grid').innerHTML = list.map(function (i) {
+    var on = sel.indexOf(i.art) >= 0;
+    return '<button class="card" data-a="' + esc(i.art) + '">' +
+      '<div class="ph"><img src="' + i.img + '" alt="' + esc(i.title) + '" loading="lazy"></div>' +
+      '<span class="fav' + (on ? ' on' : '') + '" data-fav="' + esc(i.art) + '" aria-label="В подборку">' + (on ? '♥' : '♡') + '</span>' +
+      '<div class="tx"><h3>' + esc(i.title) + '</h3><div class="art">' + esc(i.art) + ' · ' + esc(i.thick) + '</div>' +
+      '<div class="pr">' + rub(i.price) + ' за лист<span>≈ ' + rub(i.m2) + '/м²</span></div></div></button>';
+  }).join('');
+  $('empty').hidden = list.length > 0;
+  if (!list.length && cat === 'Подборка') $('empty').textContent = 'В подборке пока пусто. Нажмите ♡ на понравившихся декорах.';
+  else $('empty').textContent = 'Ничего не нашлось. Напишите нам — подберём.';
+}
+$('grid').addEventListener('click', function (e) {
+  var f = e.target.closest('[data-fav]');
+  if (f) { e.stopPropagation(); toggle(f.dataset.fav); return; }
+  var c = e.target.closest('.card'); if (c) openDetail(c.dataset.a);
+});
+
+function toggle(art) {
+  var k = sel.indexOf(art);
+  if (k >= 0) sel.splice(k, 1); else sel.push(art);
+  saveSel(); haptic(); renderChips(); renderGrid(); renderBar();
+  if ($('sheet').classList.contains('show')) openDetail(art);
+}
+
+/* карточка */
+function byArt(a) { for (var i = 0; i < items.length; i++) if (items[i].art === a) return items[i]; }
+function openDetail(art) {
+  var i = byArt(art); if (!i) return;
+  var on = sel.indexOf(art) >= 0;
+  $('det').innerHTML =
+    '<div class="pics"><img src="' + i.img + '" alt="Декор ' + esc(i.title) + '">' +
+    (i.inter ? '<img src="' + i.inter + '" alt="' + esc(i.title) + ' в интерьере" loading="lazy">' : '') + '</div>' +
+    '<h2>' + esc(i.title) + '</h2><div class="meta">' + esc(i.coll) + ' · артикул ' + esc(i.art) + '</div>' +
+    '<p class="big">' + rub(i.price) + ' <span>за лист · ≈ ' + rub(i.m2) + '/м²</span></p>' +
+    '<dl><dt>Размер листа</dt><dd>' + esc(i.size) + '</dd><dt>Площадь</dt><dd>' + String(i.area).replace('.', ',') + ' м²</dd>' +
+    '<dt>Толщина</dt><dd>' + esc(i.thick) + '</dd><dt>Монтаж</dt><dd>на клей, без каркаса</dd></dl>' +
+    '<div class="btns"><button class="btn main" data-ask="' + esc(i.art) + '">Узнать наличие в Telegram</button>' +
+    '<button class="btn sec" data-tog="' + esc(i.art) + '">' + (on ? '♥ В подборке — убрать' : '♡ Добавить в подборку') + '</button>' +
+    '<a class="btn sec" href="tel:+79312425253">Позвонить</a></div>' +
+    '<p class="fine">Образец можно посмотреть и потрогать в шоуруме бесплатно. Цвет на экране может отличаться от живой панели.</p>';
+  $('sheet').classList.add('show'); document.body.style.overflow = 'hidden';
+  if (tg) { try { tg.BackButton.show(); } catch (e) {} }
+}
+function closeDetail() {
+  $('sheet').classList.remove('show'); document.body.style.overflow = '';
+  if (tg) { try { tg.BackButton.hide(); } catch (e) {} }
+}
+$('sheet').addEventListener('click', function (e) {
+  if (e.target.closest('[data-close]')) return closeDetail();
+  var t = e.target.closest('[data-tog]'); if (t) return toggle(t.dataset.tog);
+  var a = e.target.closest('[data-ask]');
+  if (a) { var i = byArt(a.dataset.ask); askManager('Здравствуйте! Интересует декор ' + i.title + ' (' + i.art + '), ' + rub(i.price) + ' за лист. Есть в наличии?'); }
+});
+if (tg) tg.onEvent('backButtonClicked', closeDetail);
+document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeDetail(); });
+
+/* отправка менеджеру: текст копируется, открывается чат */
+function askManager(text) {
+  copy(text).then(function () {
+    toast('Текст скопирован — вставьте его в чат с менеджером');
+    setTimeout(function () { openLink('https://t.me/' + TG); }, 700);
+  });
+}
+function renderBar() {
+  $('bar').classList.toggle('show', sel.length > 0);
+  $('sendSel').textContent = 'Отправить подборку менеджеру · ' + sel.length;
+}
+$('sendSel').addEventListener('click', function () {
+  var lines = sel.map(byArt).filter(Boolean).map(function (i) { return '• ' + i.title + ' (' + i.art + ') — ' + rub(i.price) + ' за лист'; });
+  var c = calcText();
+  askManager('Здравствуйте! Моя подборка декоров:\n' + lines.join('\n') + (c ? '\n\n' + c : ''));
+});
+
+/* калькулятор — та же логика, что на сайте */
+var SERIES = [
+  { name: 'Древесная серия NB', price: 13500, w: 1.22, h: 3 },
+  { name: 'Софт-Тач', price: 12500, w: 1.22, h: 3 },
+  { name: 'Декоплитер 8 мм', price: 12500, w: 1.22, h: 3 },
+  { name: 'Коллекция 2900 × 1220', price: 11500, w: 1.22, h: 2.9 },
+  { name: 'Акционные софт-тач (белый, тёмно-серый)', price: 7500, w: 1.22, h: 3 }
+];
+var calcTouched = false;
+$('cs').innerHTML = SERIES.map(function (s, k) { return '<option value="' + k + '">' + s.name + ' · ' + rub(s.price) + '</option>'; }).join('');
+function num(v) { return parseFloat(String(v).replace(',', '.')) || 0; }
+function calc() {
+  var s = SERIES[+$('cs').value] || SERIES[0], w = num($('cw').value), h = num($('ch').value);
+  var area = w * h, sheet = s.w * s.h;
+  var panels = Math.max(1, Math.ceil(w / s.w) * Math.ceil(h / s.h), Math.ceil(area / sheet));
+  $('rArea').textContent = area.toFixed(1).replace('.', ',') + ' м²';
+  $('rPanels').textContent = panels + ' × ' + rub(s.price);
+  $('rMat').textContent = rub(panels * s.price);
+  return { s: s, w: w, h: h, area: area, panels: panels };
+}
+function calcText() {
+  if (!calcTouched) return '';
+  var r = calc();
+  return 'Расчёт: ' + r.s.name + ', стена ' + r.w + '×' + r.h + ' м (' + r.area.toFixed(1) + ' м²), ' + r.panels + ' лист. = ' + rub(r.panels * r.s.price);
+}
+['cw', 'ch', 'cs'].forEach(function (id) { $(id).addEventListener('input', function () { calcTouched = true; calc(); }); });
+calc();
+
+/* услуги — формулировки как на сайте */
+$('svc').innerHTML = [
+  ['Монтаж, точная цена после замера', 'от 2 500 ₽/м²'],
+  ['Замер по СПб, зачтём при заказе панелей', '3 000 ₽'],
+  ['Доставка по СПб, 1–2 дня', 'от 3 500 ₽']
+].map(function (s) { return '<li><span>' + s[0] + '</span><b>' + s[1] + '</b></li>'; }).join('');
+
+renderChips(); renderGrid(); renderBar();
+</script>
+</body>
+</html>
